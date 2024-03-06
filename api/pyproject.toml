@@ -13,6 +13,7 @@ uvicorn = "^0.27.1"
 pynamodb = "^6.0.0"
 pynamodb-attributes = "^0.4.0"
 black = "^24.2.0"
+fastapi-cloudauth = "^0.4.3"
 
 
 [tool.poetry.group.dev.dependencies]
