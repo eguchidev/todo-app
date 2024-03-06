@@ -17,7 +17,7 @@ const ToDo: NextPage = () => {
 
   const fetchTodos = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/todos');
+      const response = await axios.get(`${url}/todos`);
       if (response.status === 200) {
         setTodos(response.data);
       }

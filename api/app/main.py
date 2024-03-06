@@ -15,8 +15,8 @@ from database import NewToDoInput, UpdateToDoInput
 app = FastAPI()
 
 origins = [
-    "http://localhost:3000",  # ReactアプリのURL
-    # 他のオリジンもここに追加できます
+    "http://localhost:3000",
+    "*",
 ]
 
 app.add_middleware(
