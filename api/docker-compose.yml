@@ -1,0 +1,49 @@
+version: '3.8'
+services:
+  api:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    env_file:
+      - .env.local
+    volumes:
+      - ./app:/app
+    ports:
+      - 3001:3333
+    depends_on:
+      - dynamodb-local
+    networks:
+      - docker-fastapi-networks
+  
+  dynamodb-local:
+   command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+   image: "amazon/dynamodb-local:latest"
+   container_name: dynamodb-local
+   ports:
+     - "8000:8000"
+   volumes:
+     - "docker-fastapi-dynamodb-local:/home/dynamodblocal/data"
+   working_dir: /home/dynamodblocal
+   user: "root"
+   networks:
+     - docker-fastapi-networks
+   env_file:
+     - .env.local
+
+  # dynamodb-admin:
+  #   image: aaronshaf/dynamodb-admin
+  #   tty: true
+  #   container_name: dynamodb-admin
+  #   ports:
+  #     - "8001:8001"
+  #   depends_on:
+  #     - dynamodb-local
+  #   environment:
+  #     DYNAMO_ENDPOINT: http://dynamodb-local:8000
+
+volumes:
+  docker-fastapi-dynamodb-local:
+
+networks:
+  docker-fastapi-networks:
+    driver: bridge
