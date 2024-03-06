@@ -9,13 +9,15 @@ import { IToDo } from "@/interfaces/todo";
 import TopBar from "@/common/components/TopBar";
 import { useToast } from "@chakra-ui/react";
 
+const url = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 const ToDo: NextPage = () => {
   const toast = useToast();
   const [todos, setTodos] = useState<IToDo[]>([]);
 
   const fetchTodos = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/todos');
+      const response = await axios.get(`${url}/todos`);
       if (response.status === 200) {
         setTodos(response.data);
       }
@@ -31,7 +33,8 @@ const ToDo: NextPage = () => {
 
   const deleteToDo = async (id: string) => {
     try {
-      const response = await axios.delete(`http://localhost:3001/todos/${id}`);
+      // const response = await axios.delete(`http://localhost:3001/todos/${id}`);
+      const response = await axios.delete(`${url}/todos/${id}`);
       if (response.status === 200) {
         fetchTodos();
         toast({
@@ -48,7 +51,7 @@ const ToDo: NextPage = () => {
 
   const updateToDo = async (payload: UpdateToDoData) => {
     try {
-      const response = await axios.put(`http://localhost:3001/todos`, payload);
+      const response = await axios.put(`${url}/todos`, payload);
       if (response.status === 200) {
         fetchTodos();
         toast({
@@ -65,7 +68,7 @@ const ToDo: NextPage = () => {
 
   const createToDo = async (payload: ToDoFormData) => {
     try {
-      const response = await axios.post('http://localhost:3001/todos', payload);
+      const response = await axios.post(`${url}/todos`, payload);
       if (response.status === 200) {
         fetchTodos();
         toast({
@@ -83,7 +86,7 @@ const ToDo: NextPage = () => {
   const handleSearch = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value;
     try {
-      const response = await axios.get(`http://localhost:3001/todos/search?q=${query}`);
+      const response = await axios.get(`${url}/todos/search?q=${query}`);
       if (response.status === 200) {
         setTodos(response.data);
       }
