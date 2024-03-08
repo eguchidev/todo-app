@@ -105,7 +105,7 @@ const ToDo: NextPage = () => {
     }
   };
 
-  if (session && session.user) {
+  // if (session && session.user) {
   return (
     <Flex h="100vh" direction="column">
       <Box position="fixed" width="100%" zIndex="100">
@@ -118,17 +118,18 @@ const ToDo: NextPage = () => {
         <Box>
           <ToDoList todos={todos} deleteToDo={deleteToDo} updateToDo={updateToDo} />
         </Box>
-        <Button onClick={() => signOut()}>ログアウト</Button>
+        {/* <Button onClick={() => signOut()}>ログアウト</Button> */}
       </VStack>
     </Flex>
-    );} else {
-      return (
-        <VStack>
-          <Heading>ログインしてください</Heading>
-          <Button onClick={() => signIn()}>ログイン</Button>
-        </VStack>
-      );
-    }
+    );
+  // } else {
+  //     return (
+  //       <VStack>
+  //         <Heading>ログインしてください</Heading>
+  //         <Button onClick={() => signIn()}>ログイン</Button>
+  //       </VStack>
+  //     );
+  //   }
 };
 
 export default ToDo;

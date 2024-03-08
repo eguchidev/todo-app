@@ -1,5 +1,6 @@
 # routers/todo.py
-from fastapi import APIRouter, Depends
+# from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 from crud import (
     get_todos,
     search_todos,
@@ -9,9 +10,10 @@ from crud import (
     delete_todo,
 )
 from database import NewToDoInput, UpdateToDoInput
-from auth import get_current_user_auth
+# from auth import get_current_user_auth
 
-router = APIRouter(dependencies=[Depends(get_current_user_auth)])
+# router = APIRouter(dependencies=[Depends(get_current_user_auth)])
+router = APIRouter()
 
 
 @router.get("/todos")
