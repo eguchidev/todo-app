@@ -8,43 +8,41 @@ import ToDoList, { UpdateToDoData } from "@/components/todos/ToDoList";
 import { IToDo } from "@/interfaces/todo";
 import TopBar from "@/common/components/TopBar";
 import { useToast } from "@chakra-ui/react";
-import { signIn, signOut, useSession } from 'next-auth/react';
 
 const url = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const ToDo: NextPage = () => {
   
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
   const toast = useToast();
   const [todos, setTodos] = useState<IToDo[]>([]);
 
-  const axiosInstance = axios.create({
-    baseURL: url,
-    headers: {
-      'Authorization': `Bearer ${session?.user?.access_token}`
-    }
-  });
+  // const axiosInstance = axios.create({
+  //   baseURL: url,
+  //   headers: {
+  //     'Authorization': `Bearer ${session?.user?.access_token}`
+  //   }
+  // });
 
-  const fetchTodos = React.useCallback(async () => {
+  const fetchTodos = async () => {
     try {
-      const response = await axiosInstance.get(`${url}/todos`);
+      const response = await axios.get(`${url}/todos`);
       if (response.status === 200) {
         setTodos(response.data);
       }
     } catch (error) {
       console.error(error);
     }
-  }, [axiosInstance]);
+  };
   
-  // useEffectを使用して、コンポーネントがマウントされたときにToDoをフェッチします
   React.useEffect(() => {
     fetchTodos();
-  }, [fetchTodos]);
+  }, []);
 
   const deleteToDo = async (id: string) => {
     try {
       // const response = await axios.delete(`http://localhost:3001/todos/${id}`);
-      const response = await axiosInstance.delete(`${url}/todos/${id}`);
+      const response = await axios.delete(`${url}/todos/${id}`);
       if (response.status === 200) {
         fetchTodos();
         toast({
@@ -61,7 +59,7 @@ const ToDo: NextPage = () => {
 
   const updateToDo = async (payload: UpdateToDoData) => {
     try {
-      const response = await axiosInstance.put(`${url}/todos`, payload);
+      const response = await axios.put(`${url}/todos`, payload);
       if (response.status === 200) {
         fetchTodos();
         toast({
@@ -78,7 +76,7 @@ const ToDo: NextPage = () => {
 
   const createToDo = async (payload: ToDoFormData) => {
     try {
-      const response = await axiosInstance.post(`${url}/todos`, payload);
+      const response = await axios.post(`${url}/todos`, payload);
       if (response.status === 200) {
         fetchTodos();
         toast({
@@ -96,7 +94,7 @@ const ToDo: NextPage = () => {
   const handleSearch = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value;
     try {
-      const response = await axiosInstance.get(`${url}/todos/search?q=${query}`);
+      const response = await axios.get(`${url}/todos/search?q=${query}`);
       if (response.status === 200) {
         setTodos(response.data);
       }

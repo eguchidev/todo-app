@@ -18,30 +18,30 @@ export class FargateStack extends Stack {
   constructor(scope: Construct, id: string, vpcStack: VpcStack, props?: StackProps) {
     super(scope, id, props);
 
-    const userPool = new cognito.UserPool(this, 'userPool', {
-      userPoolName: 'userPool',
-      selfSignUpEnabled: true,
-      signInAliases: { email: true },
-    });
+    // const userPool = new cognito.UserPool(this, 'userPool', {
+    //   userPoolName: 'userPool',
+    //   selfSignUpEnabled: true,
+    //   signInAliases: { email: true },
+    // });
 
-    const userPoolClient = userPool.addClient('userPoolClient', {
-        userPoolClientName: 'userPoolClient',
-        generateSecret: true,
-        oAuth: {
-          callbackUrls: ['http://localhost:3000/api/auth/callback/cognito'],
-          logoutUrls: ['http://localhost:3000/'],
-          flows: { authorizationCodeGrant: true },
-          scopes: [
-            cognito.OAuthScope.EMAIL,
-            cognito.OAuthScope.PROFILE,
-            cognito.OAuthScope.OPENID,
-          ],
-        },
-      });
+    // const userPoolClient = userPool.addClient('userPoolClient', {
+    //     userPoolClientName: 'userPoolClient',
+    //     generateSecret: true,
+    //     oAuth: {
+    //       callbackUrls: ['http://localhost:3000/api/auth/callback/cognito'],
+    //       logoutUrls: ['http://localhost:3000/'],
+    //       flows: { authorizationCodeGrant: true },
+    //       scopes: [
+    //         cognito.OAuthScope.EMAIL,
+    //         cognito.OAuthScope.PROFILE,
+    //         cognito.OAuthScope.OPENID,
+    //       ],
+    //     },
+    //   });
 
-    userPool.addDomain('userPoolDomain', {
-        cognitoDomain: { domainPrefix: 'uniqdomain' },
-      });
+    // userPool.addDomain('userPoolDomain', {
+    //     cognitoDomain: { domainPrefix: 'uniqdomain' },
+    //   });
 
     // Create IAM Role for ECS Tasks
     const ecsTaskRole = new Role(this, 'EcsTaskRole', {
@@ -70,7 +70,8 @@ export class FargateStack extends Stack {
 
     // Create Docker image
     const dockerImage = new DockerImageAsset(this, 'DockerImage', {
-        directory: path.join(__dirname, '../../../api'), // replace with the path to your Dockerfile
+        // directory: path.join(__dirname, '../../../api'), // replace with the path to your Dockerfile
+        directory: '../api'
       });
 
 
@@ -82,8 +83,8 @@ export class FargateStack extends Stack {
     logging: ecs.LogDrivers.awsLogs({ streamPrefix: 'AppContainer' }),
     environment: {
         REGION: REGION,
-        USERPOOLID: userPool.userPoolId,
-        APPCLIENTID: userPoolClient.userPoolClientId,
+        USERPOOLID: 'us-east-1_reBESNFOS',
+        APPCLIENTID: '1c2lsn4h9msvto1d9idfhuj9ch',
     },
     });
 
