@@ -10,13 +10,13 @@ export default NextAuth({
     }),
   ],
 callbacks: {
-    async jwt({ token, user, account, profile }) {
+    jwt({ token, user, account, profile }) {
       if (user) {
         token.access_token = user.access_token;
       }
       return token
     },
-    async session({ session, token, user }) {
+    session({ session, token, user }) {
       session.user.access_token = token
       return session
     }  

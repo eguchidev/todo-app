@@ -25,7 +25,7 @@ const ToDo: NextPage = () => {
     }
   });
 
-  const fetchTodos = async () => {
+  const fetchTodos = React.useCallback(async () => {
     try {
       const response = await axiosInstance.get(`${url}/todos`);
       if (response.status === 200) {
@@ -34,12 +34,12 @@ const ToDo: NextPage = () => {
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [axiosInstance]);
   
   // useEffectを使用して、コンポーネントがマウントされたときにToDoをフェッチします
   React.useEffect(() => {
     fetchTodos();
-  }, []);
+  }, [fetchTodos]);
 
   const deleteToDo = async (id: string) => {
     try {
